@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Webgriffe_DbIsolation>
+            <version>1.0.0</version>
+        </Webgriffe_DbIsolation>
+    </modules>
+    <global>
+        <models>
+            <webgriffe_dbisolation>
+                <class>Webgriffe_DbIsolation_Model</class>
+                <resourceModel>webgriffe_dbisolation_resource</resourceModel>
+            </webgriffe_dbisolation>
+            <webgriffe_dbisolation_resource>
+                <class>Webgriffe_DbIsolation_Model_Resource</class>
+            </webgriffe_dbisolation_resource>
+        </models>
+        <blocks>
+            <webgriffe_dbisolation>
+                <class>Webgriffe_DbIsolation_Block</class>
+            </webgriffe_dbisolation>
+        </blocks>
+        <helpers>
+            <webgriffe_dbisolation>
+                <class>Webgriffe_DbIsolation_Helper</class>
+            </webgriffe_dbisolation>
+        </helpers>
+        <resources>
+            <webgriffe_dbisolation_setup>
+                <setup>
+                    <module>Webgriffe_DbIsolation</module>
+                </setup>
+            </webgriffe_dbisolation_setup>
+        </resources>
+    </global>
+</config>
