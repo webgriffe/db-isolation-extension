@@ -2,7 +2,7 @@
     "name": "webgriffe/db-isolation-extension",
     "type": "magento-module",
     "license":"MIT",
-    "description":"Extension description here",
+    "description":"Magento 1.x extension which isolates database between Ecomdev_PHPUnit's tests.",
     "authors":[
         {
             "name":"Webgriffe SRL",
