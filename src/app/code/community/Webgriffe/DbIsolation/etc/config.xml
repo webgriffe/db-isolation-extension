@@ -32,5 +32,23 @@
                 </setup>
             </webgriffe_dbisolation_setup>
         </resources>
+        <events>
+            <phpunit_test_start_before>
+                <observers>
+                    <webgriffe_dbisolation_start_transaction>
+                        <class>webgriffe_dbisolation/observer</class>
+                        <method>beginTransaction</method>
+                    </webgriffe_dbisolation_start_transaction>
+                </observers>
+            </phpunit_test_start_before>
+            <phpunit_test_end_after>
+                <observers>
+                    <webgriffe_dbisolation_rollback_transaction>
+                        <class>webgriffe_dbisolation/observer</class>
+                        <method>rollbackTransaction</method>
+                    </webgriffe_dbisolation_rollback_transaction>
+                </observers>
+            </phpunit_test_end_after>
+        </events>
     </global>
 </config>
