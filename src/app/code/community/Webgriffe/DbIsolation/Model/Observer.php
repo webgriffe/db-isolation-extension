@@ -18,6 +18,8 @@ class Webgriffe_DbIsolation_Model_Observer
      */
     public function beginTransaction(Varien_Event_Observer $observer)
     {
+        Mage::dispatchEvent('db_isolation_before_begin_transaction');
+
         $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
         if ($this->isWarningEnabled()) {
             $this->tablesChecksums = $this->getAllTablesChecksums($connection);
@@ -35,6 +37,8 @@ class Webgriffe_DbIsolation_Model_Observer
      */
     public function rollbackTransaction(Varien_Event_Observer $observer)
     {
+        Mage::dispatchEvent('db_isolation_before_rollback');
+
         $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
         if ($this->isEnabled()) {
             $connection->rollBack();
