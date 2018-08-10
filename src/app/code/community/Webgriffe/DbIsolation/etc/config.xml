@@ -37,18 +37,34 @@
                 <observers>
                     <webgriffe_dbisolation_start_transaction>
                         <class>webgriffe_dbisolation/observer</class>
-                        <method>beginTransaction</method>
+                        <method>calculateDbChecksum</method>
                     </webgriffe_dbisolation_start_transaction>
                 </observers>
             </phpunit_test_start_before>
             <phpunit_test_end_after>
+                <observers>
+                    <webgriffe_dbisolation_start_transaction>
+                        <class>webgriffe_dbisolation/observer</class>
+                        <method>warnIfDbChecksumDiffers</method>
+                    </webgriffe_dbisolation_start_transaction>
+                </observers>
+            </phpunit_test_end_after>
+            <phpunit_test_case_start_before>
+                <observers>
+                    <webgriffe_dbisolation_start_transaction>
+                        <class>webgriffe_dbisolation/observer</class>
+                        <method>beginTransaction</method>
+                    </webgriffe_dbisolation_start_transaction>
+                </observers>
+            </phpunit_test_case_start_before>
+            <phpunit_test_case_end_after>
                 <observers>
                     <webgriffe_dbisolation_rollback_transaction>
                         <class>webgriffe_dbisolation/observer</class>
                         <method>rollbackTransaction</method>
                     </webgriffe_dbisolation_rollback_transaction>
                 </observers>
-            </phpunit_test_end_after>
+            </phpunit_test_case_end_after>
         </events>
     </global>
 </config>

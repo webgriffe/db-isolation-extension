@@ -21,9 +21,6 @@ class Webgriffe_DbIsolation_Model_Observer
         Mage::dispatchEvent('db_isolation_before_begin_transaction');
 
         $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
-        if ($this->isWarningEnabled()) {
-            $this->tablesChecksums = $this->getAllTablesChecksums($connection);
-        }
         if ($this->isEnabled()) {
             $connection->beginTransaction();
         }
@@ -43,8 +40,30 @@ class Webgriffe_DbIsolation_Model_Observer
         if ($this->isEnabled()) {
             $connection->rollBack();
         }
+    }
+
+    /**
+     * @param Varien_Event_Observer $observer
+     * @throws Zend_Db_Statement_Exception
+     */
+    public function calculateDbChecksum(Varien_Event_Observer $observer)
+    {
+        $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
         if ($this->isWarningEnabled()) {
-            $diff = $this->checksumsDiff($this->getAllTablesChecksums($connection), $this->tablesChecksums);
+            $this->tablesChecksums = $this->getAllTablesChecksums($connection);
+        }
+    }
+
+    /**
+     * @param Varien_Event_Observer $observer
+     * @throws Zend_Db_Statement_Exception
+     */
+    public function warnIfDbChecksumDiffers(Varien_Event_Observer $observer)
+    {
+        $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+        if ($this->isWarningEnabled()) {
+            $currentChecksum = $this->getAllTablesChecksums($connection);
+            $diff = $this->checksumsDiff($currentChecksum, $this->tablesChecksums);
             if (count($diff) > 0) {
                 /** @var PHPUnit_Framework_Test $test */
                 $test = $observer->getData('test');
