@@ -35,36 +35,36 @@
         <events>
             <phpunit_test_start_before>
                 <observers>
-                    <webgriffe_dbisolation_start_transaction>
+                    <webgriffe_dbisolation_calculate_db_checksum>
                         <class>webgriffe_dbisolation/observer</class>
                         <method>calculateDbChecksum</method>
-                    </webgriffe_dbisolation_start_transaction>
+                    </webgriffe_dbisolation_calculate_db_checksum>
                 </observers>
             </phpunit_test_start_before>
-            <phpunit_test_end_after>
-                <observers>
-                    <webgriffe_dbisolation_start_transaction>
-                        <class>webgriffe_dbisolation/observer</class>
-                        <method>warnIfDbChecksumDiffers</method>
-                    </webgriffe_dbisolation_start_transaction>
-                </observers>
-            </phpunit_test_end_after>
-            <phpunit_test_case_start_before>
+            <phpunit_test_start_before>
                 <observers>
                     <webgriffe_dbisolation_start_transaction>
                         <class>webgriffe_dbisolation/observer</class>
                         <method>beginTransaction</method>
                     </webgriffe_dbisolation_start_transaction>
                 </observers>
-            </phpunit_test_case_start_before>
-            <phpunit_test_case_end_after>
+            </phpunit_test_start_before>
+            <phpunit_test_end_after>
                 <observers>
                     <webgriffe_dbisolation_rollback_transaction>
                         <class>webgriffe_dbisolation/observer</class>
                         <method>rollbackTransaction</method>
                     </webgriffe_dbisolation_rollback_transaction>
                 </observers>
-            </phpunit_test_case_end_after>
+            </phpunit_test_end_after>
+            <phpunit_test_end_after>
+                <observers>
+                    <webgriffe_dbisolation_warn_if_db_checksum_differs>
+                        <class>webgriffe_dbisolation/observer</class>
+                        <method>warnIfDbChecksumDiffers</method>
+                    </webgriffe_dbisolation_warn_if_db_checksum_differs>
+                </observers>
+            </phpunit_test_end_after>
         </events>
     </global>
 </config>
