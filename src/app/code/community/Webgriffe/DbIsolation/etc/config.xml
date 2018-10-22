@@ -32,6 +32,15 @@
                 </setup>
             </webgriffe_dbisolation_setup>
         </resources>
+        <resource>
+            <connection>
+                <types>
+                    <pdo_mysql>
+                        <adapter>Webgriffe_DbIsolation_Model_Db_Adapter_Pdo_Mysql</adapter>
+                    </pdo_mysql>
+                </types>
+            </connection>
+        </resource>
         <events>
             <phpunit_test_start_before>
                 <observers>
