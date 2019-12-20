@@ -2,7 +2,6 @@
 
 class Webgriffe_DbIsolation_Model_Observer
 {
-    const ENABLED_CONFIG_PATH = 'phpunit/db_isolation/enabled';
     const WARNING_ENABLED_CONFIG_PATH = 'phpunit/db_isolation/warning_enabled';
 
     /**
@@ -141,7 +140,7 @@ class Webgriffe_DbIsolation_Model_Observer
      */
     private function isEnabled()
     {
-        return (bool)(string)Mage::getConfig()->getNode(self::ENABLED_CONFIG_PATH);
+        return Mage::helper('webgriffe_dbisolation')->isEnabled();
     }
 
     /**
