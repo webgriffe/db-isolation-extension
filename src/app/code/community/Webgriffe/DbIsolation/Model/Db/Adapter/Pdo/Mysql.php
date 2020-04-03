@@ -8,6 +8,8 @@
 
 class Webgriffe_DbIsolation_Model_Db_Adapter_Pdo_Mysql extends Magento_Db_Adapter_Pdo_Mysql
 {
+    const SAVEPOINT_NAME = 'db_isolation_savepoint';
+
     protected $transactionLevelOffset = 0;
 
     public function getTransactionLevel()
@@ -74,6 +76,40 @@ class Webgriffe_DbIsolation_Model_Db_Adapter_Pdo_Mysql extends Magento_Db_Adapte
         $this->query($query);
 
         return $this;
+    }
+
+    public function beginTransaction()
+    {
+        if ($this->getTransactionLevel() == 0 && $this->getTransactionLevelOffset() > 0) {
+            $savepointName = self::SAVEPOINT_NAME;
+            $this->getConnection()->exec("SAVEPOINT {$savepointName}");
+        }
+
+        return parent::beginTransaction();
+    }
+
+    public function rollback()
+    {
+        $result = parent::rollback();
+
+        if ($this->getTransactionLevel() == 0 && $this->getTransactionLevelOffset() > 0) {
+            $savepointName = self::SAVEPOINT_NAME;
+            $this->getConnection()->exec("ROLLBACK TO SAVEPOINT {$savepointName}");
+        }
+
+        return $result;
+    }
+
+    public function commit()
+    {
+        $result = parent::commit();
+
+        if ($this->getTransactionLevel() == 0 && $this->getTransactionLevelOffset() > 0) {
+            $savepointName = self::SAVEPOINT_NAME;
+            $this->getConnection()->exec("RELEASE SAVEPOINT {$savepointName}");
+        }
+
+        return $result;
     }
 
     /**
